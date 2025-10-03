@@ -1,20 +1,22 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
-import assets from './assets/assets'
+import { authContext } from '../context/authContext'
 
 const App = () => {
+
+  const { authUser } = useContext(authContext)
 
   return (
 
     <div className={`bg-[url(./assets/bgImage.svg)] bg-contain`
     }>
       <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/' element={authUser ? <HomePage /> : <Navigate to={"/login"} />} />
+        <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to={"/"} />} />
+        <Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />} />
       </Routes>
     </div >
 

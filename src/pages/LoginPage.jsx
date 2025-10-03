@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import assets, { messagesDummyData } from '../assets/assets'
+import { authContext } from '../../context/authContext'
 const LoginPage = () => {
 
   const [currentState, setCurrentState] = useState("Sign up")
@@ -9,6 +10,7 @@ const LoginPage = () => {
   const [bio, setBio] = useState("")
   const [isDataSubmitted, setIsDataSubmitted] = useState(false)
 
+  const { login } = useContext(authContext)
   const onSubmitHandler = (e) => {
     e.preventDefault()
 
@@ -17,11 +19,8 @@ const LoginPage = () => {
       return;
     }
 
-    try {
+    login(currentState === "Sign up" ? "signup" : 'login', { fullName, email, password, bio })
 
-    } catch (error) {
-      console.log('Some Error Occured :- ', error);
-    }
   }
 
   return (
